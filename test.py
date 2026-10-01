@@ -1,9 +1,9 @@
-from dataclasses import dataclass
+from dataclasses import dataclass,field
 class LibraryError(Exception):
     pass
-class BookNotFoundError(Exception):
+class BookNotFoundError(LibraryError):
     pass
-class BookUnavailableError(Exception):
+class BookUnavailableError(LibraryError):
     pass
 
 @dataclass
@@ -29,8 +29,8 @@ class Book:
             availability = data["availability"]
         )
         
-    def book_borrow(self):
-        if self.availability == False:
+    def borrow(self):
+        if not self.availability :
             raise BookUnavailableError("This book is unavailable.")
         self.availability = False
     def book_return(self):
@@ -39,7 +39,7 @@ class Book:
 @dataclass
 class Member:
     member_id :str
-    borrowed_books :dict = {}
+    borrowed_books : list[str] = field(default_factory=list) ## what
     def to_dict(self):
         return {
             "member_id": self.member_id,
@@ -52,15 +52,36 @@ class Member:
             borrowed_books = data["borrowed_books"]
         )
 
-class Library(Book,Member):
-    def __init__(self,):
-        
-    def add_book(self,data):
-        
+class Library:
+    def __init__(self):
+        self.books = {}
+        self.members = {}
+    def add_book(self, book: Book):
+        self.books[book.isbn] = book
+    def add_member(self, member:Member):
+        self.members[member.member_id] = member
     def search_book(self, isbn):
-        if isbn not in Book:
+        if isbn not in self.books:
             raise BookNotFoundError("There's no book searched.")
-        return True
-    def book_borrow(self,isbn):
-        if self.search_book(isbn):
-            
+        return self.books[isbn]
+    def  borrow_book(self, isbn: str, member_id: str):
+        book = self.search_book(isbn)
+        if member_id not in self.members:
+            raise LibraryError("Member not found.")
+        member = self.members[member_id]
+        book.borrow()
+        member.borrowed_books.append(isbn)
+        
+  ###########      
+library = Library()
+
+book1 = Book("001", "Python Basics", "Alice")
+member1 = Member("M001")
+
+library.add_book(book1)
+library.add_member(member1)
+
+library.borrow_book("001", "M001")
+
+print(book1)
+print(member1)

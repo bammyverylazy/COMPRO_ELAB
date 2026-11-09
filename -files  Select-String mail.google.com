@@ -1,0 +1,17 @@
+[33mcommit d69d61366a3ada646681f9e01afd00ab1b6512af[m
+Author: NORMALBAM <bammynithirathaya@gmail.com>
+Date:   Mon Nov 9 22:23:25 2026 +0700
+
+    fix: remove file quiz special
+
+[33mcommit ca3a6e4648b372d047034cff0466e1d0cc605dad[m
+Author: Bammyverylazy <bammynithirathaya@gmail.com>
+Date:   Tue Oct 13 01:26:52 2026 +0700
+
+    fix: exclude large IMDb dataset
+
+[33mcommit 6e44f252ab5177d4d88b7c3306cec4e2c65de80c[m
+Author: Bammyverylazy <bammynithirathaya@gmail.com>
+Date:   Mon Oct 12 15:46:22 2026 +0700
+
+    learn: json
